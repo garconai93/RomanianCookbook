@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romanian Cookbook - Rețete Tradiționale</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #FDFCFA;
+            --bg-secondary: #F7F5F2;
+            --text-primary: #1A1A1A;
+            --text-secondary: #6B6B6B;
+            --accent: #C45C26;
+            --accent-light: #E8A87C;
+            --card-bg: #FFFFFF;
+            --shadow: 0 4px 20px rgba(0,0,0,0.06);
+            --shadow-hover: 0 12px 40px rgba(0,0,0,0.12);
+            --border-radius: 20px;
+            --border-radius-sm: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #FDFCFA 0%, #F7F5F2 100%);
+            padding: 60px 20px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 70%, rgba(196,92,38,0.05) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20px, 20px); }
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .tagline {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        /* Search */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 20px 24px 20px 56px;
+            font-size: 1.1rem;
+            border: 2px solid transparent;
+            border-radius: 60px;
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 22px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.3rem;
+        }
+
+        /* Categories */
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 30px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .category-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* Recipe Grid */
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .recipe-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .recipe-image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            background: var(--bg-secondary);
+        }
+
+        .recipe-content {
+            padding: 24px;
+        }
+
+        .recipe-category {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(196,92,38,0.1);
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .recipe-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .recipe-meta {
+            display: flex;
+            gap: 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .recipe-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .recipe-ingredients {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--bg-secondary);
+        }
+
+        .recipe-ingredients h4 {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .recipe-ingredients ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .recipe-ingredients li {
+            background: var(--bg-secondary);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: var(--bg-secondary);
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        .modal-category {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(196,92,38,0.1);
+            color: var(--accent);
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 20px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .modal-meta {
+            display: flex;
+            gap: 30px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--bg-secondary);
+            margin-bottom: 30px;
+            color: var(--text-secondary);
+        }
+
+        .modal-meta span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-section {
+            margin-bottom: 30px;
+        }
+
+        .modal-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+
+        .modal-section ul {
+            list-style: none;
+        }
+
+        .modal-section li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .modal-section li::before {
+            content: '•';
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        .modal-section ol {
+            padding-left: 24px;
+        }
+
+        .modal-section li {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--bg-secondary);
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--bg-secondary);
+            margin-top: 60px;
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .categories {
+                gap: 8px;
+            }
+
+            .category-btn {
+                padding: 10px 18px;
+                font-size: 0.85rem;
+            }
+
+            .recipes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-title {
+                font-size: 1.8rem;
+            }
+
+            .modal-body {
+                padding: 24px;
+            }
+
+            .modal-meta {
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Bucătăria <span>Românească</span></div>
+        <p class="tagline">Rețete tradiționale autentice, din suflet</p>
+        
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Caută o rețetă sau ingredient..." id="searchInput">
+        </div>
+
+        <div class="categories">
+            <button class="category-btn active" data-category="all">Toate</button>
+            <button class="category-btn" data-category="supe">Supe & Ciorbe</button>
+            <button class="category-btn" data-category="fel_principal">Fel Principal</button>
+            <button class="category-btn" data-category="deserturi">Deserturi</button>
+            <button class="category-btn" data-category="aperitive">Aperitive</button>
+        </div>
+    </header>
+
+    <main>
+        <h2 class="section-title">Rețete Populare</h2>
+        
+        <div class="recipes-grid" id="recipesGrid">
+            <!-- Recipes will be inserted here by JavaScript -->
+        </div>
+    </main>
+
+    <!-- Recipe Modal -->
+    <div class="modal" id="recipeModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <img src="" alt="" class="modal-image" id="modalImage">
+            <div class="modal-body">
+                <span class="modal-category" id="modalCategory"></span>
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <div class="modal-meta">
+                    <span>⏱️ <b id="modalTime"></b> minute</span>
+                    <span>👨‍🍳 <b id="modalServings"></b> porții</span>
+                    <span>📊 <b id="modalDifficulty"></b></span>
+                </div>
+                
+                <div class="modal-section">
+                    <h3>📝 Ingrediente</h3>
+                    <ul id="modalIngredients"></ul>
+                </div>
+                
+                <div class="modal-section">
+                    <h3>👨‍🍳 Mod de Preparare</h3>
+                    <ol id="modalInstructions"></ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Bucătăria Românească | Rețete cu drag 💛</p>
+        <p>Făcut cu ❤️ pentru bucătăria românească</p>
+    </footer>
+
+    <script>
+        const recipes = [
+            {
+                id: 1,
+                title: "Sarmale cu Smântână",
+                category: "fel_principal",
+                categoryName: "Fel Principal",
+                image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=800",
+                time: 90,
+                servings: 8,
+                difficulty: "Mediu",
+                ingredients: [
+                    "1 varză mare (2 kg)",
+                    "700 g carne tocată (porc)",
+                    "300 g carne afumată",
+                    "1 ceapă mare",
+                    "200 g orez",
+                    "1 ou",
+                    "Sare, piper, boia",
+                    "300 ml ulei",
+                    "400 g pastă de roșii",
+                    "500 ml smântână"
+                ],
+                instructions: [
+                    "Se toacă varza și se sărează. Se lasă 30 minute să se înmoaie.",
+                    "Ceapa se toacă mărunt și se călește în ulei până devine sticloasă.",
+                    "Carnea se amestecă cu orezul, ceapa, oul, sarea, piperul și boia.",
+                    "Se ia câte o foaie de varză, se pune umplutura și se-rulează.",
+                    "Sarmalele se pun în oală, alternate cu bucăți de carne afumată.",
+                    "Se adaugă pasta de roșii, puțină apă și ulei.",
+                    "Se fierb la foc mic 1,5 ore.",
+                    "Se servesc cu smântână și mămăligă caldă."
+                ]
+            },
+            {
+                id: 2,
+                title: "Ciorbă de Burtă",
+                category: "supe",
+                categoryName: "Supe & Ciorbe",
+                image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800",
+                time: 180,
+                servings: 6,
+                difficulty: "Avansat",
+                ingredients: [
+                    "1 kg burtă de vită",
+                    "3 litri apă",
+                    "4 ouă",
+                    "300 ml smântână",
+                    "4 căței usturoi",
+                    "Oțet după gust",
+                    "Sare, piper",
+                    "Leuștean verde",
+                    "Ardei iute"
+                ],
+                instructions: [
+                    "Burtă se fierbe 2-3 ore până devine moale. Se taie fâșii.",
+                    "Supa se strecoară și se pune înapoi pe foc.",
+                    "Se amestecă smântână cu ouă și se toarnă în supă, amestecând continuu.",
+                    "Se adaugă usturoiul pisat și oțetul.",
+                    "Se condimentează cu sare, piper și leuștean tocat.",
+                    "Se servește cu smântână deasupra și ardei iute."
+                ]
+            },
+            {
+                id: 3,
+                title: "Mămăligă cu Brânză și Smântână",
+                category: "fel_principal",
+                categoryName: "Fel Principal",
+                image: "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=800",
+                time: 30,
+                servings: 4,
+                difficulty: "Ușor",
+                ingredients: [
+                    "400 g malai",
+                    "1,5 litri apă",
+                    "200 g brânză de burduf",
+                    "300 ml smântână",
+                    "50 g unt",
+                    "Sare"
+                ],
+                instructions: [
+                    "Apa se pune la fiert cu sare.",
+                    "Se toarnă malaiul în ploaie, amestecând constant.",
+                    "Se fierbe 15-20 minute, amestecând din când în când.",
+                    "Când se desprinde de pereți, e gata.",
+                    "Se servește cu brânză, smântână și unt deasupra."
+                ]
+            },
+            {
+                id: 4,
+                title: "Papanasi Prăjiți",
+                category: "deserturi",
+                categoryName: "Deserturi",
+                image: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=800",
+                time: 45,
+                servings: 6,
+                difficulty: "Mediu",
+                ingredients: [
+                    "500 g brânză proaspătă",
+                    "3 ouă",
+                    "300 g făină",
+                    "100 g zahăr",
+                    "1 plic zahăr vanilat",
+                    "Ulei pentru prăjit",
+                    "Smântână dulce",
+                    "Dulceață de fructe"
+                ],
+                instructions: [
+                    "Brânza se amestecă cu gălbenușurile, zahărul și vanilia.",
+                    "Se adaugă făina treptat, frământând un aluat neted.",
+                    "Se formează bile mari și se pun în centru găuri.",
+                    "Se prăjesc în ulei încins, până devin aurii.",
+                    "Se servesc cu smântână și dulceață."
+                ]
+            },
+            {
+                id: 5,
+                title: "Ciorbă de Legume",
+                category: "supe",
+                categoryName: "Supe & Ciorbe",
+                image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800",
+                time: 60,
+                servings: 6,
+                difficulty: "Ușor",
+                ingredients: [
+                    "2 morcovi",
+                    "2 cartofi",
+                    "1 țelină",
+                    "1 ceapă",
+                    "1 ardei",
+                    "2 roșii",
+                    "300 g fasole verde",
+                    "Verdețuri",
+                    "Smântână"
+                ],
+                instructions: [
+                    "Legumele se curăță și se taie cuburi.",
+                    "Se călește ceapa, apoi se adaugă celelalte legume.",
+                    "Se acoperă cu apă și se fierb 30 minute.",
+                    "Se adaugă verdețurile tocate.",
+                    "Se servește cu smântână și oțet."
+                ]
+            },
+            {
+                id: 6,
+                title: "Cozonac cu Nuci",
+                category: "deserturi",
+                categoryName: "Deserturi",
+                image: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=800",
+                time: 180,
+                servings: 10,
+                difficulty: "Avansat",
+                ingredients: [
+                    "1 kg făină",
+                    "200 g zahăr",
+                    "200 g unt",
+                    "6 ouă",
+                    "500 ml lapte",
+                    "30 g drojdie",
+                    "300 g nuci măcinate",
+                    "150 g zahăr vanilat",
+                    "Esență de rom",
+                    "Coajă de lămâie"
+                ],
+                instructions: [
+                    "Laptele se încălzește, se amestecă cu drojdia și puțină făină. Se lasă să dospească.",
+                    "Se amestecă făina cu zahărul, ouăle, untul topit și lactul cu drojdie.",
+                    "Se frământă 20 minute până devine neted. Se lasă la dospit 1 oră.",
+                    "Aluatul se întinde, se presară nucile cu zahăr și esență.",
+                    "Se rulează și se pune în tavă. Se lasă încă 30 minute.",
+                    "Se coace la 180°C pentru 50-60 minute."
+                ]
+            }
+        ];
+
+        // Render recipes
+        function renderRecipes(filter = 'all', searchTerm = '') {
+            const grid = document.getElementById('recipesGrid');
+            let filtered = recipes;
+
+            if (filter !== 'all') {
+                filtered = filtered.filter(r => r.category === filter);
+            }
+
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                filtered = filtered.filter(r => 
+                    r.title.toLowerCase().includes(term) ||
+                    r.ingredients.some(i => i.toLowerCase().includes(term))
+                );
+            }
+
+            grid.innerHTML = filtered.map(recipe => `
+                <div class="recipe-card" onclick="openModal(${recipe.id})">
+                    <img src="${recipe.image}" alt="${recipe.title}" class="recipe-image">
+                    <div class="recipe-content">
+                        <span class="recipe-category">${recipe.categoryName}</span>
+                        <h3 class="recipe-title">${recipe.title}</h3>
+                        <div class="recipe-meta">
+                            <span>⏱️ ${recipe.time} min</span>
+                            <span>👨‍🍳 ${recipe.servings}</span>
+                            <span>📊 ${recipe.difficulty}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Category buttons
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderRecipes(btn.dataset.category, document.getElementById('searchInput').value);
+            });
+        });
+
+        // Search
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const activeCategory = document.querySelector('.category-btn.active').dataset.category;
+            renderRecipes(activeCategory, e.target.value);
+        });
+
+        // Modal functions
+        function openModal(id) {
+            const recipe = recipes.find(r => r.id === id);
+            if (!recipe) return;
+
+            document.getElementById('modalImage').src = recipe.image;
+            document.getElementById('modalCategory').textContent = recipe.categoryName;
+            document.getElementById('modalTitle').textContent = recipe.title;
+            document.getElementById('modalTime').textContent = recipe.time;
+            document.getElementById('modalServings').textContent = recipe.servings;
+            document.getElementById('modalDifficulty').textContent = recipe.difficulty;
+            
+            document.getElementById('modalIngredients').innerHTML = recipe.ingredients
+                .map(i => `<li>${i}</li>`).join('');
+            
+            document.getElementById('modalInstructions').innerHTML = recipe.instructions
+                .map(i => `<li>${i}</li>`).join('');
+
+            document.getElementById('recipeModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('recipeModal').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('recipeModal').addEventListener('click', (e) => {
+            if (e.target.id === 'recipeModal') closeModal();
+        });
+
+        // Initial render
+        renderRecipes();
+    </script>
+</body>
+</html>
